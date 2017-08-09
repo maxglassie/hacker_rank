@@ -15,7 +15,7 @@ def difference(str1, str2)
 
   freq1 = frequencies(arr1)
   freq2 = frequencies(arr2)
-  binding.pry
+
   compare(freq1, freq2)
 end
 
@@ -36,14 +36,16 @@ end
 def compare(freq1, freq2)
   #compares two frequency hashes and returns a count
   freq_count = freq1.reduce(0) do |count, (k, v)|
-      if freq2[k] == 0
-        count += 1
-      elsif freq2[k] != v
+      if freq2[k] != v || freq2[k] == v
         count += (freq2[k] - v).abs
-      elsif freq2[k] == v
         freq2.delete(k)
       end
     count
   end
-  freq_count + freq2.values.reduce(:+)
+
+  if !freq2.empty?
+    freq_count + freq2.values.reduce(:+)
+  else
+    freq_count
+  end
 end
